@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Charity Organigation - Dapp</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="flex w-full max-h-44 py-2.5 justify-around bg-red-700">
+      <p
+        class="h-full text-xl pl-3 font-medium leading-loose flex-1 text-white"
+        id="account"
+      >
+        Account Number
+      </p>
+      <p class="text-3xl text-white uppercase">Smart Charity</p>
+      <div class="flex flex-row pr-3 flex-1 justify-end">
+        <p class="text-l leading-10 text-white">Exchange Rate: &nbsp;</p>
+        <p class="text-l leading-10 text-white" id="rate">1 ETH = RM</p>
+      </div>
+    </div>
+    
+    <div class="flex flex-row justify-center space-x-40 items-center">
+      <div class="flex flex-col pt-20 pb-10 items-center">
+        <p class="text-xl leading-10 text-red-500" id="type-label">Balance</p>
+        <p class="text-5xl leading-10 text-red-500" id="balance">RM 0.00</p>
+        <p class="text-xl leading-10 text-red-500" id="bal-ether">ETH 0.00</p>
+      </div>
+      <div
+        class="flex flex-col items-center pt-20 pb-10"
+        id="thres-div"
+        style="display: none"
+      >
+        <p class="text-xl leading-10 text-red-500">Current Threshold</p>
+        <p class="text-4xl leading-10 text-red-500" id="threshold">ETH 0.00</p>
+        <p class="text-xl leading-10 text-red-500" id="thres-rm">RM 0.00</p>
+      </div>
+    </div>
+    <div id="customer">
+      <div class="flex flex-row space-x-3 pt-40 items-center justify-center">
+        <!-- <span
+          class="z-10 text-gray-800 -ml-44 absolute items-center justify-start pl-5 py-3"
+        >
+          ETH
+        </span> -->
+        <input
+          class="input border border-gray-400 rounded-md px-3 py-3 pl-10 focus focus:border-red-500 focus:outline-none"
+          id="amount"
+          type="number"
+          placeholder="ETH"
+        />
+      </div>
+      <div class="flex w-full justify-center space-x-20 pt-40">
+        <button
+          class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 items-center py-7 pl-11 pr-8 w-1/4 h-20 bg-blue-600 rounded-2xl hover:bg-red-700 focus:outline-none"
+          id="deposit"
+        >
+          <p
+            class="w-full h-full text-xl font-medium tracking-wide text-center text-white"
+            onclick="deposit()"
+          >
+            Deposit
+          </p>
+        </button>
+        <button
+          class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 items-center py-7 pl-11 pr-8 w-1/4 h-20 bg-green-500 rounded-2xl hover:bg-green-700 focus:outline-none"
+          id="withdraw"
+        >
+          <p
+            class="w-full h-full text-xl font-medium tracking-wide text-center text-white"
+            onclick="withdraw()"
+          >
+            Withdraw
+          </p>
+        </button>
+      </div>
+    </div>
+    <div id="admin" class="pt-40 hidden">
+      <div class="flex flex-row items-start justify-between pl-3 pr-3">
+        <div class="flex flex-col items-center justify-center space-y-5">
+          <p class="text-l leading-10 text-red-500">Update Threshold</p>
+          <div class="flex flex-row items-center justify-center">
+            <span
+              class="z-10 text-gray-800 absolute items-center -ml-44 justify-start pl-2.5 py-3"
+            >
+              ETH
+            </span>
+            <input
+              class="input border border-gray-400 rounded-md px-2 ml py-3 pl-11 focus focus:border-red-500 focus:outline-none"
+              id="thres-val"
+              type="number"
+              placeholder="ETH"
+            />
+          </div>
+          <button
+            class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 items-center p-3 w-52 h-12 bg-red-500 rounded-md hover:bg-red-700 focus:outline-none"
+            id="update-threshold"
+          >
+            <p
+              class="w-full h-full text-xl font-medium tracking-wide text-center text-white"
+            >
+              Update threshold
+            </p>
+          </button>
+        </div>
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-l leading-10 text-red-500">
+            Transactions Above Threshold Limit
+          </p>
+          <table id="abovelim" class="table-auto p-20">
+            <thead class="justify-between">
+              <tr>
+                <th class="sticky top-0 px-6 py-3 text-red-900 bg-red-300">
+                  Account
+                </th>
+                <th class="sticky top-0 px-6 py-3 text-red-900 bg-red-300">
+                  Amount
+                </th>
+                <th class="sticky top-0 px-6 py-3 text-red-900 bg-red-300">
+                  TimeStamp (Malaysia Time)
+                </th>
+              </tr>
+            </thead>
+            <!-- empty table body will be filled from js -->
+            <tbody class="justify-between divide-y bg-red-100"></tbody>
+          </table>
+        </div>
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-l leading-10 text-red-500">
+            Accounts Suspected of Money Laundering
+          </p>
+          <table id="highbal" class="table-auto p-20">
+            <thead class="justify-between">
+              <tr>
+                <th class="sticky top-0 px-6 py-3 text-red-900 bg-red-300">
+                  Account Number
+                </th>
+              </tr>
+            </thead>
+            <!-- empty table body will be filled from js -->
+            <tbody class="justify-between divide-y bg-red-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.3/dayjs.min.js"
+      integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg=="
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/deposit_withdraw.js"></script>
+  </body>
+</html>
